@@ -107,7 +107,7 @@ angular.module('prepresstoolApp')
 
       $scope.rebuild = function() {
 
-        var bind = ($scope.pages.bind === 'PerfectBound') ? 1 : 2;
+        var bind = $scope.pages.bind==='PerfectBound' ? 1 : 2;
         var min = divide($scope.pages.min, 2*bind);
         var maxGray = divide($scope.pages.maxGray, min);
         var maxColor = divide($scope.pages.maxColor, min);
@@ -132,8 +132,8 @@ angular.module('prepresstoolApp')
           sign[sign.length-1].pagearr.push(i+1);
         }
         if (bind === 2) {
-          for (var i = all/bind; i < all; i++) {
-            sign[Math.ceil((all-i)/(min/bind))-1].pagearr.push(i+1);
+          for (var j = all/bind; j < all; j++) {
+            sign[Math.ceil((all-j)/(min/bind))-1].pagearr.push(j+1);
           }
         }
              
@@ -191,7 +191,7 @@ angular.module('prepresstoolApp')
         var head = {};
         head.number = 'number:';
         head.signatures = [];
-        for (var i = 0; i < max/2; i++) {
+        for (var k = 0; k < max/2; k++) {
           head.signatures.push({
             allSign: all,
             pages: 2,
