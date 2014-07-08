@@ -1,0 +1,68 @@
+<div class="jumbotron">
+  <table class="table table-bordered">
+    <tr>
+      <th>Binding:</th>
+      <td>
+        <select ng-model="pages.bind" type="text" ng-change="rebuild()" class="span2">
+          <option>PerfectBound</option>
+          <option>SaddleStich</option>
+        </select>
+      </td>
+      <td>{{clearpages.bind}}</td>
+    </tr>
+    <tr>
+      <th>All pages:</th>
+      <td>
+        <input ng-model="pages.all" type="text" ng-change="rebuild()" class="input-small"/>
+      </td>
+      <td>{{clearpages.all}}</td>
+    </tr>
+    <tr>
+      <th>Color:</th>
+      <td>
+        <input ng-model="pages.color" type="text" ng-change="rebuild()" class="input-large"/>
+      </td>
+      <td>{{clearpages.color}}</td>
+    </tr>
+    <tr>
+      <th>Min:</th>
+      <td>
+        <input ng-model="pages.min" type="text" ng-change="rebuild()" class="span2"/>
+      </td>
+      <td>{{clearpages.min}}</td>
+    </tr>
+    <tr>
+      <th>Max gray:</th>
+      <td>
+        <input ng-model="pages.maxGray" type="text" ng-change="rebuild()" class="span2"/>
+      </td>
+      <td>{{clearpages.maxGray}}</td>
+    </tr>
+    <tr>
+      <th>Max color:</th>
+      <td>
+        <input ng-model="pages.maxColor" type="text" ng-change="rebuild()" class="span2"/>
+      </td>
+      <td>{{clearpages.maxColor}}</td>
+    </tr>
+    <tr>
+      <th>Reverse:</th>
+      <td>
+        <input ng-model="pages.rev" type="checkbox" ng-change="rebuild()" class="span2"/>
+      </td>
+      <td>{{clearpages.rev}} </td>
+    </tr>
+  </table>
+</div>
+<div class="jumbotron">
+  <table class="table table-bordered">
+    <tr ng-repeat="sheet in sheets">
+      <th>List {{sheet.number}}</th>
+      <td colspan="{{sig.colspan}}" ng-repeat="sig in sheet.signatures">
+        <div class="show {{sig.colorstyle}}">
+          <h5>{{sig.number}}</h5><span><b>{{sig.pages}}</b><em> (</em><em ng-repeat="page in sig.pagearr"> {{page}}</em><em> )</em></span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
