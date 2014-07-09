@@ -1,7 +1,7 @@
-It is some tool for prepress. It separate signatures to press sheets according setup parameters, such is all pages, color pages, min and max page in signatures.
+It is a tool for prepress. It separates signatures to press sheets according setup parameters, such all pages, color pages, min and max page in signatures.
 
-See how it work - http://pofigizm.github.io/PrepressTool
+See how it works - http://pofigizm.github.io/PrepressTool
 
-It is was write during learn javascript and angularjs. Need tool for fun. ;)
+It was written during learning javascript and angularjs. Needful tool which was made for fun. ;)
 
 May be continued...
