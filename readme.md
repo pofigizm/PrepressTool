@@ -2,6 +2,6 @@ It is a tool for prepress. It separates signatures to press sheets according to 
 
 See how it works - http://pofigizm.github.io/PrepressTool
 
-It was written while learning JavaScript and AngularJs. A useful tool whish was made for fun. ;)
+It was written while learning JavaScript and AngularJs. A useful tool which was made for fun. ;)
 
 Can be continued...
