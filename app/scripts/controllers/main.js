@@ -96,7 +96,7 @@ angular.module('prepresstoolApp')
       ];
 
       $scope.pages = {
-        bind: 'PerfectBound',
+        bind: 1,
         all: 48,
         color: '2, 6, 21, 45',
         min: 4,
@@ -107,7 +107,7 @@ angular.module('prepresstoolApp')
 
       $scope.rebuild = function() {
 
-        var bind = $scope.pages.bind==='PerfectBound' ? 1 : 2;
+        var bind = Number($scope.pages.bind);
         var min = divide($scope.pages.min, 2*bind);
         var maxGray = divide($scope.pages.maxGray, min);
         var maxColor = divide($scope.pages.maxColor, min);
@@ -206,7 +206,8 @@ angular.module('prepresstoolApp')
         // return data to page
 
         $scope.clearpages = {
-          bind: bind === 1 ? 'PerfectBound' : 'SaddleStich',
+          bind: bind,
+          bindastext: bind===1 ? 'PerfectBound' : 'SaddleStich',
           all: all,
           color: color.join(', '),
           min: min,

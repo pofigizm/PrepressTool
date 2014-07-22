@@ -4,9 +4,9 @@ div.jumbotron
       th Binding:
       td
         select.span2(ng-model='pages.bind', type='text', ng-change='rebuild()')
-          option PerfectBound
-          option SaddleStich
-      td {{clearpages.bind}}
+          option(value='1') PerfectBound
+          option(value='2') SaddleStich
+      td {{clearpages.bindastext}}
     tr
       th All pages:
       td
