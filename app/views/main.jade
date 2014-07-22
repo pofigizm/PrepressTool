@@ -1,0 +1,52 @@
+div.jumbotron
+  table.table.table-bordered
+    tr
+      th Binding:
+      td
+        select.span2(ng-model='pages.bind', type='text', ng-change='rebuild()')
+          option PerfectBound
+          option SaddleStich
+      td {{clearpages.bind}}
+    tr
+      th All pages:
+      td
+        input.input-small(ng-model='pages.all', type='text', ng-change='rebuild()')
+      td {{clearpages.all}}
+    tr
+      th Color:
+      td
+        input.input-large(ng-model='pages.color', type='text', ng-change='rebuild()')
+      td {{clearpages.color}}
+    tr
+      th Min:
+      td
+        input.span2(ng-model='pages.min', type='text', ng-change='rebuild()')
+      td {{clearpages.min}}
+    tr
+      th Max gray:
+      td
+        input.span2(ng-model='pages.maxGray', type='text', ng-change='rebuild()')
+      td {{clearpages.maxGray}}
+    tr
+      th Max color:
+      td
+        input.span2(ng-model='pages.maxColor', type='text', ng-change='rebuild()')
+      td {{clearpages.maxColor}}
+    tr
+      th Reverse:
+      td
+        input.span2(ng-model='pages.rev', type='checkbox', ng-change='rebuild()')
+      td {{clearpages.rev}} 
+
+div.jumbotron
+  table.table.table-bordered
+    tr(ng-repeat='sheet in sheets')
+      th List {{sheet.number}}
+      td(colspan='{{sig.colspan}}', ng-repeat='sig in sheet.signatures')
+        div(class='show {{sig.colorstyle}}')
+          h5 {{sig.number}}
+          span 
+            b {{sig.pages}}
+            em  (
+            em(ng-repeat='page in sig.pagearr')  {{page}}
+            em  )
