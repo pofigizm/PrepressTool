@@ -1,21 +1,37 @@
 'use strict';
 
+function comnum(a, b) {  // compare numbers
+  return a-b;  //  +a>+b ? 1 : -1;  
+}
+
+function dashview(array) {
+  array.sort(comnum);
+  angular.forEach(array, function(value, key) {
+    array[key] = [Number(value)];
+  });
+  for(var i = array.length-2; i >= 0; i--) {
+    if (array[i+1][0] - array[i][array[i].length-1] ===1) {
+      array.splice(i, 2, array[i].concat(array[i+1]));
+    }
+  }
+  angular.forEach(array, function(value, key) {
+    if (value.length > 1) {
+      array[key] = String(value[0] + '-' + value[value.length-1]); 
+    } else {
+      array[key] = String(value[0]); 
+    }
+  });
+  return array;  
+}
+
 function cleartoarray(string) {
   var array = string.replace(/[^0-9,-]/g, '').split(',');
   var returnarray = [];
   angular.forEach(array, function(value) {
-    var spl = value.split('-');
-    if (spl.length === 1) {returnarray.push(value);}
-    if (spl.length > 1) {
-      if (spl[0] > 0) {
-        spl[0] = +spl[0];
-        if (spl[spl.length-1] > 0) {
-          spl[spl.length-1] = +spl[spl.length-1];
-          if (spl[0] > spl[spl.length-1]) {spl.reverse();}
-          for (var i = spl[0]; i <= spl[spl.length-1]; i++) {
-            returnarray.push(i);
-          }
-        }
+    var spl = value.split('-').sort(comnum);
+    for (var i = +spl[0]; i <= +spl[spl.length-1]; i++) {
+      if (i>0) {
+        returnarray.push(i);
       }
     }
   });
@@ -42,7 +58,8 @@ function signjoin(sign, rev) {
   for (var i = 1; i < sign.length; i++) {
     if (sign[i].color === sign[i-1].color) {
       if (sign[i].pagearr.length === sign[i-1].pagearr.length) {
-        if (sign[i].pagearr.length < sign[i].maxSign) {
+        var signsize = sign[i].sheetSize<sign[i].maxSign ? sign[i].sheetSize : sign[i].maxSign;
+        if (sign[i].pagearr.length < signsize) {
           var newelement = new Object(sign[i]);
           newelement.pagearr = unique(sign[i-1].pagearr.concat(sign[i].pagearr), sign[i].allSign);
           sign.splice(i-1, 2, newelement);
@@ -59,7 +76,7 @@ function signtosheet(sign) {
   angular.forEach(sign, function(value) {
     var findsheet = 0;
     for (var i = 1; i <= sheet.length; i++) {
-      if (value.maxSign - sheet[i-1].pages >= value.pages) {
+      if (value.sheetSize - sheet[i-1].pages >= value.pages) {
         findsheet = i;
         break;
       }
@@ -98,9 +115,10 @@ angular.module('prepresstoolApp')
       $scope.pages = {
         bind: 1,
         all: 48,
-        color: '2, 6, 21, 45',
+        color: '1-4, 6, 21, 45',
         min: 4,
-        maxGray: 8,
+        max: 8,
+        maxGray: 16,
         maxColor: 8,
         rev: true
       };
@@ -109,12 +127,15 @@ angular.module('prepresstoolApp')
 
         var bind = Number($scope.pages.bind);
         var min = divide($scope.pages.min, 2*bind);
+        var max = divide($scope.pages.max, min);        
         var maxGray = divide($scope.pages.maxGray, min);
         var maxColor = divide($scope.pages.maxColor, min);
-        var max = maxColor>maxGray ? maxColor : maxGray;
+        var maxSheet = maxColor>maxGray ? maxColor : maxGray;
         var all = divide($scope.pages.all, min);
         var color = unique(cleartoarray($scope.pages.color), all);
         var rev = $scope.pages.rev;
+
+
 
         // Insert start signatures (min pages) 
 
@@ -124,7 +145,8 @@ angular.module('prepresstoolApp')
           if (i >= sign.length*min/bind) {
             sign.push({
               allSign: all,
-              maxSign: maxGray,
+              maxSign: max,
+              sheetSize: maxGray,
               color: false,
               pagearr: []
             });
@@ -143,7 +165,7 @@ angular.module('prepresstoolApp')
           angular.forEach(valueS.pagearr, function(valueP) {
             angular.forEach(color, function(value) {
               if (value == valueP) {
-                valueS.maxSign = maxColor;
+                valueS.sheetSize = maxColor;
                 valueS.color = true;
               }
             });
@@ -161,6 +183,7 @@ angular.module('prepresstoolApp')
         angular.forEach(sign, function(value, key) {
           value.number = key + 1;
           value.pages = value.pagearr.length;
+          value.dashpages = dashview(value.pagearr);
           value.colspan = value.pages / 2;
           value.colorstyle = value.color ? 'color' : 'gray';
         });
@@ -191,7 +214,7 @@ angular.module('prepresstoolApp')
         var head = {};
         head.number = 'number:';
         head.signatures = [];
-        for (var k = 0; k < max/2; k++) {
+        for (var k = 0; k < maxSheet/2; k++) {
           head.signatures.push({
             allSign: all,
             pages: 2,
@@ -209,15 +232,15 @@ angular.module('prepresstoolApp')
           bind: bind,
           bindastext: bind===1 ? 'PerfectBound' : 'SaddleStich',
           all: all,
-          color: color.join(', '),
+          color: dashview(color).join(', '),
           min: min,
+          max: max,
           maxGray: maxGray,
           maxColor: maxColor,
           rev: rev
         };
         $scope.signatures = sign;
         $scope.sheets = pressSheet;
-        console.log(pressSheet);
       };
 
       // first build

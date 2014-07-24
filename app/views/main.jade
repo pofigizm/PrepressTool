@@ -18,17 +18,22 @@ div.jumbotron
         input.input-large(ng-model='pages.color', type='text', ng-change='rebuild()')
       td {{clearpages.color}}
     tr
-      th Min:
+      th Min signature:
       td
         input.span2(ng-model='pages.min', type='text', ng-change='rebuild()')
       td {{clearpages.min}}
     tr
-      th Max gray:
+      th Max signature:
+      td
+        input.span2(ng-model='pages.max', type='text', ng-change='rebuild()')
+      td {{clearpages.max}}
+    tr
+      th Pages gray:
       td
         input.span2(ng-model='pages.maxGray', type='text', ng-change='rebuild()')
       td {{clearpages.maxGray}}
     tr
-      th Max color:
+      th Pages color:
       td
         input.span2(ng-model='pages.maxColor', type='text', ng-change='rebuild()')
       td {{clearpages.maxColor}}
@@ -48,5 +53,5 @@ div.jumbotron
           span 
             b {{sig.pages}}
             em  (
-            em(ng-repeat='page in sig.pagearr')  {{page}}
+            em(ng-repeat='page in sig.dashpages')  {{page}}
             em  )
