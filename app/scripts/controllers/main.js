@@ -94,6 +94,15 @@ function signtosheet(sign) {
   return sheet;
 }
 
+function spine(mathspine) {
+  var spi = mathspine.thinkness * mathspine.pages / 200;
+  mathspine.offset = Math.round(1.30 * spi) / 10 + 1;
+  mathspine.silk   = Math.round(0.90 * spi) / 10 + 1;
+  mathspine.gloss  = Math.round(0.75 * spi) / 10 + 1;
+
+  return mathspine;
+}
+
 /**
  * @ngdoc function
  * @name prepresstoolApp.controller:MainCtrl
@@ -111,6 +120,11 @@ angular.module('prepresstoolApp')
         'AngularJS',
         'Karma'
       ];
+
+      $scope.mathspine = {
+        thinkness: 115,
+        pages: 48
+      };
 
       $scope.pages = {
         bind: 1,
@@ -239,8 +253,11 @@ angular.module('prepresstoolApp')
           maxColor: maxColor,
           rev: rev
         };
+
         $scope.signatures = sign;
         $scope.sheets = pressSheet;
+
+        $scope.mathspine = spine($scope.mathspine);
       };
 
       // first build

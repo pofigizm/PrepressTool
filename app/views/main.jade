@@ -55,3 +55,23 @@ div.jumbotron
             em  (
             em(ng-repeat='page in sig.dashpages')  {{page}}
             em  )
+
+div.jumbotron
+  h4.text-muted
+    | Size of spine with different paper types in block 
+    | (толщина корешка при разных типах бумаг в блоке): 
+  table.table.table-bordered
+    tr
+      th Pages (in block)
+      th Thinkness, g/m&#178;
+      th Offset (офсетная), mm
+      th Silk (матовая), mm
+      th Gloss (глянцевая), mm
+    tr
+      td 
+        input.input-small(ng-model='mathspine.pages', type='text', ng-change='rebuild()')
+      td 
+        input.input-small(ng-model='mathspine.thinkness', type='text', ng-change='rebuild()')
+      td {{mathspine.offset}}
+      td {{mathspine.silk}}
+      td {{mathspine.gloss}}
